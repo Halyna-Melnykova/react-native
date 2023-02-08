@@ -1,11 +1,27 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+// import { StatusBar } from "expo-status-bar";
+import {
+  ImageBackground,
+  TextInput,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+} from "react-native";
+import RegistrationScreen from "./Screens/RegistrationScreen";
+
+// const image = { uri: "https://reactjs.org/logo-og.png" };
 
 export default function App() {
+  console.log(Platform.OS);
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hello world!</Text>
-      <StatusBar style="auto" />
+      <ImageBackground
+        source={require("./assets/images/background.jpg")}
+        resizeMode="cover"
+        style={styles.image}
+      >
+        <RegistrationScreen />
+      </ImageBackground>
     </View>
   );
 }
@@ -13,12 +29,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
-  text: {
-    color: "green",
-    fontSize: 24,
+  image: {
+    flex: 1,
+    justifyContent: "center",
+    // alignItems: "center",
   },
 });
