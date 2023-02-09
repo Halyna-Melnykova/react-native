@@ -1,32 +1,78 @@
+import React, { useState } from "react";
 import {
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
   Text,
   View,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 
 export default function RegistrationScreen() {
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    onLogin();
+  };
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const nameHandler = (text) => setName(text);
+  const emailHandler = (text) => setEmail(text);
+  const passwordHandler = (text) => setPassword(text);
+
+  const onLogin = () => {
+    Alert.alert("Credentials", `${name} + ${email}`);
+  };
+
   return (
-    <View style={styles.form}>
-      <Text style={styles.title}>Реєстрація</Text>
-      <View style={styles.inputWrapper}>
-        <Text style={styles.inputTest}>Логін</Text>
-        <TextInput style={styles.input} />
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={{ ...styles.form, marginBottom: isShowKeyboard ? 20 : 100 }}>
+        <Text style={styles.title}>Реєстрація</Text>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            value={name}
+            placeholder="Логін"
+            style={styles.input}
+            onFocus={() => setIsShowKeyboard(true)}
+            onChangeText={nameHandler}
+          />
+        </View>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            value={email}
+            placeholder="Адреса електронної пошти"
+            style={styles.input}
+            onFocus={() => setIsShowKeyboard(true)}
+            onChangeText={emailHandler}
+          />
+        </View>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            value={password}
+            placeholder="Пароль"
+            style={styles.input}
+            secureTextEntry={true}
+            onFocus={() => setIsShowKeyboard(true)}
+            onChangeText={passwordHandler}
+          />
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.btn}
+          onPress={keyboardHide}
+        >
+          <Text style={styles.btnTitle}>Зареєструватись</Text>
+        </TouchableOpacity>
+        <Text style={styles.text}>Вже є акаунт? Ввійти</Text>
       </View>
-      <View style={styles.inputWrapper}>
-        <Text style={styles.inputTest}>Адреса електронної пошти</Text>
-        <TextInput style={styles.input} />
-      </View>
-      <View style={styles.inputWrapper}>
-        <Text style={styles.inputTest}>Пароль</Text>
-        <TextInput style={styles.input} secureTextEntry={true} />
-      </View>
-      <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
-        <Text style={styles.btnTitle}>Зареєструватись</Text>
-      </TouchableOpacity>
-      <Text style={styles.text}>Вже є акаунт? Ввійти</Text>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -41,9 +87,9 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 33,
-    fontFamily: "Roboto",
+    // fontFamily: "Roboto-Bold",
     // fontStyle: "normal",
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
@@ -65,13 +111,13 @@ const styles = StyleSheet.create({
     borderColor: "#f0f8ff",
     borderRadius: 10,
 
-    fontFamily: "Roboto",
+    // fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
     color: "#212121",
   },
-  inputTest: {
-    fontFamily: "Roboto",
+  placeholder: {
+    // fontFamily: "Roboto",
     // fontStyle: "normal",
     fontSize: 16,
     lineHeight: 19,
@@ -93,8 +139,8 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
   text: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
+    // fontFamily: "Roboto",
+    // fontStyle: "normal",
     // fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
